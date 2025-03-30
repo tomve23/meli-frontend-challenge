@@ -4,6 +4,7 @@
   "description": "Serice API for Mercado Libre's frontend challenge",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/tomve23/meli-frontend-challenge/issues"
   },
-  "homepage": "https://github.com/tomve23/meli-frontend-challenge#readme"
+  "homepage": "https://github.com/tomve23/meli-frontend-challenge#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
 }
