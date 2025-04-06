@@ -1,32 +1,39 @@
-import { Request, Response } from "express";
 import api from "@/services/api";
-import SearchResponse from "@/models/searchResponse";
-import ItemDetailResponse from "@/models/itemDetailResponse";
-import Author from "@/models/author";
-import Price from "@/models/price";
+import { Request, Response } from "express";
+import { SearchResponse, Author, Product } from "@/types";
+import { API_MELI_FRONTEND } from "@/constants/api";
 
-const author = new Author("Tomás", "Vera");
+const author: Author = {
+  name: "Tomás",
+  lastname: "Vera",
+};
 
 export const searchProducts = async (req: Request, res: Response) => {
   try {
-    const response = await api.get("/sites/MLA/search", {
+    const { data } = await api.get(`${API_MELI_FRONTEND}/sites/MLA/search`, {
       params: req.query,
     });
 
-    const categories = response.data.filters[0].values[0].path_from_root.map(
-      (category: any) => category.name
-    );
+    const categories: string[] = data.breadcrumbs;
 
-    const items = response.data.results.map((item: any) => ({
+    const items: Product[] = data.results.map((item: any) => ({
       id: item.id,
       title: item.title,
-      price: new Price(item.price, item.currency_id, 0),
-      picture: item.thumbnail,
-      condition: item.condition,
-      free_shipping: item.shipping.free_shipping,
+      price: {
+        currency: item.price.currency_id,
+        amount: item.price.amount,
+        decimals: data.currency.decimal_places,
+      },
+      picture: item.pictures.stack.retina,
+      condition: item.condition_text,
+      free_shipping: item.tags.includes("free_shipping"),
     }));
 
-    const productsData = new SearchResponse(author, categories, items);
+    const productsData: SearchResponse = {
+      author,
+      categories,
+      items,
+    };
 
     res.json(productsData);
   } catch (error) {

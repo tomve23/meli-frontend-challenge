@@ -25,7 +25,6 @@ app.use("/api", productRoutes);
 const server = http.createServer(app);
 
 // Start server
-server.listen(9080, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
-  console.log(`Access Token is: ${process.env.MELI_ACCESS_TOKEN}`);
 });
