@@ -1,7 +1,8 @@
 import api from "@/services/api";
-import { Request, Response } from "express";
-import { SearchResponse, Author, Product } from "@/types";
 import { API_MELI_FRONTEND } from "@/constants/api";
+import { Request, Response } from "express";
+import { Author, Product } from "@/models";
+import { SearchResponse } from "./productController.types";
 
 const author: Author = {
   name: "Tomás",

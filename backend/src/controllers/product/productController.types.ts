@@ -1,5 +1,4 @@
-import { Author } from "@/types/author";
-import { Product, ProductDetail } from "@/types/product";
+import { Author, Product, ProductDetail } from "@/models";
 
 export interface SearchResponse {
   author: Author;
