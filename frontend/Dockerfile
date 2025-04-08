@@ -14,4 +14,4 @@ EXPOSE 9081
 ENV HOST=0.0.0.0
 ENV PORT=9081
 
-RUN if [ "$VERSION" ];then npm i -g serve && npm run build; fi
+CMD ["npm", "run","dev"]
