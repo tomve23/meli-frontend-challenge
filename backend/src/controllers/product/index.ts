@@ -1,8 +1,4 @@
-export {
-  searchProducts,
-  getProductDetails,
-  getProductDescription,
-} from "./productController";
+export { searchProducts, getProductDetails } from "./productController";
 export {
   SearchResponse,
   ProductDetailResponse,

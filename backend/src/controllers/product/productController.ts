@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import { API_MELI_FRONTEND } from "@/constants/api";
+import { API_MELI_FRONTEND, API_MELI } from "@/constants/api";
 import { Request, Response } from "express";
 import { Author, Product } from "@/models";
 import { SearchResponse } from "@/controllers/product";
@@ -23,23 +23,25 @@ export const searchProducts = async ({ query }: Request, res: Response) => {
     const results = data.results.slice(0, limit);
 
     const categories: string[] = data.breadcrumb.map((item: any) => item.text);
-    const items: Product[] = results.map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      price: {
-        currency: item.price.currency_id,
-        amount: item.price.amount,
-        decimals: data.currency.decimal_places,
-      },
-      address: {
-        state: item.seller_info.address.state?.name,
-        city: item.seller_info.address.city?.name,
-        country: item.seller_info.address.country?.name,
-      },
-      picture: item.pictures.stack.retina,
-      condition: item.condition_text,
-      free_shipping: item.tags.includes("free_shipping"),
-    }));
+    const items: Product[] = results.map(
+      (item: any): Product => ({
+        id: item.id,
+        title: item.title,
+        price: {
+          currency: item.price.currency_id,
+          amount: item.price.amount,
+          decimals: data.currency.decimal_places,
+        },
+        address: {
+          state: item.seller_info.address.state?.name,
+          city: item.seller_info.address.city?.name,
+          country: item.seller_info.address.country?.name,
+        },
+        picture: item.pictures.stack.retina,
+        condition: item.condition_text,
+        free_shipping: item.tags.includes("free_shipping"),
+      })
+    );
 
     const productsData: SearchResponse = {
       author,
@@ -54,22 +56,21 @@ export const searchProducts = async ({ query }: Request, res: Response) => {
   }
 };
 
-export const getProductDetails = async (itemId: string) => {
+export const getProductDetails = async ({ params }: Request, res: Response) => {
   try {
-    const response = await api.get(`/items/${itemId}`);
-    return response.data;
+    const { data } = await api.get(
+      `${API_MELI}/items/${params.itemId}/description`
+    );
+
+    const productDetail = {
+      description: data.plain_text,
+      sold_quantity: Math.floor(Math.random() * 500),
+    };
+
+    res.json(productDetail);
   } catch (error) {
     console.error("Error fetching product details:", error);
-    throw error;
-  }
-};
-
-export const getProductDescription = async (itemId: string) => {
-  try {
-    const response = await api.get(`/items/${itemId}/description`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching product description:", error);
+    res.status(500).json({ error: "Ocurrió un error al obtener los datos" });
     throw error;
   }
 };
