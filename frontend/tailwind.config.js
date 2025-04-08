@@ -21,11 +21,12 @@ export default {
           hover: '#dddddd',
         },
         foreground: '#666666',
+        text: '#333333',
         border: 'hsl(0 0% 89.8%)',
         input: 'hsl(0 0% 89.8%)',
         ring: 'hsl(0 0% 3.9%)',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/line-clamp')],
 };

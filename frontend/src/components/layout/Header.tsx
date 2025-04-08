@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import LogoMeli from '@/assets/images/LogoMeli.png';
 import SearchIcon from '@/assets/icons/Search.png';
@@ -8,9 +8,15 @@ import { Button } from '@/components/ui/button';
 const Header = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = useState(
-    searchParams.get('search') || '',
-  );
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  useEffect(() => {
+    const search = searchParams.get('search')?.trim();
+
+    if (search) {
+      setSearchValue(search);
+    }
+  }, [searchParams]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
