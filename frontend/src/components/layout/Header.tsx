@@ -47,8 +47,8 @@ const Header = () => {
             onChange={handleInputChange}
           />
           <Button
-            size="lg"
-            className="rounded-s-none p-3 duration-200 bg-background hover:bg-background-hover border-none shadow-none"
+            size="icon"
+            className="rounded-s-none duration-200 bg-background hover:bg-background-hover border-none shadow-none"
           >
             <img src={SearchIcon} alt="search" />
           </Button>

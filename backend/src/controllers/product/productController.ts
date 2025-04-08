@@ -3,6 +3,7 @@ import { API_MELI_FRONTEND, API_MELI } from "@/constants/api";
 import { Request, Response } from "express";
 import { Author, Product } from "@/models";
 import { SearchResponse } from "@/controllers/product";
+import { getProductCondition } from "@/utils/helpers";
 
 const author: Author = {
   name: "Tomás",
@@ -38,7 +39,7 @@ export const searchProducts = async ({ query }: Request, res: Response) => {
           country: item.seller_info.address.country?.name,
         },
         picture: item.pictures.stack.retina,
-        condition: item.condition_text,
+        condition: getProductCondition(item),
         free_shipping: item.tags.includes("free_shipping"),
       })
     );

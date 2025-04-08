@@ -1,5 +1,4 @@
 import axios from "axios";
-import { setupCache } from "axios-cache-interceptor";
 
 const instance = axios.create({
   headers: {
@@ -9,6 +8,4 @@ const instance = axios.create({
   },
 });
 
-const api = setupCache(instance, { location: "server" });
-
-export default api;
+export default instance;

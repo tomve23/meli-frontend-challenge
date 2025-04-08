@@ -1,0 +1,36 @@
+services:
+  meli-challenge-backend:
+    container_name: meli-challenge-backend
+    build:
+      context: backend/
+      dockerfile: ./Dockerfile
+    command: npm run dev
+    ports:
+      - 9080:9080
+    volumes:
+      - ./backend:/backend:cached
+      - /backend/node_modules
+    env_file:
+      - ./backend/.env
+    environment:
+      ENVIRONMENT: "dev"
+      ENV_FILE: ".env"
+    stdin_open: true
+
+  meli-challenge-frontend:
+    container_name: meli-challenge-frontend
+    build:
+      context: frontend/
+      dockerfile: ./Dockerfile
+    command: npm run dev
+    ports:
+      - "9081:9081"
+    volumes:
+      - ./frontend:/frontend:cached
+      - /frontend/node_modules
+    env_file:
+      - ./frontend/.env
+    environment:
+      ENVIRONMENT: "dev"
+      ENV_FILE: ".env"
+    stdin_open: true
