@@ -13,8 +13,8 @@ Tomás Martín Vera
 El repositorio trae preparado la configuración de docker compose con los siguientes archivos:
 
 - `./backend/Dockerfile`
-- `./backend/Dockerfile`
 - `./frontend/Dockerfile`
+- `./docker-compose.yaml`
 
 Para ejecutar el proyecto solo debe correr el comando `docker compose up` en la raíz del repositorio y eso levantarán los aplicativos en las siguientes URls:
 
