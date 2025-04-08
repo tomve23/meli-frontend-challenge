@@ -8,8 +8,7 @@ services:
     ports:
       - 9080:9080
     volumes:
-      - ./backend:/backend:cached
-      - /backend/node_modules
+      - ./backend:/app:cached
     env_file:
       - ./backend/.env
     environment:
@@ -26,8 +25,7 @@ services:
     ports:
       - "9081:9081"
     volumes:
-      - ./frontend:/frontend:cached
-      - /frontend/node_modules
+      - ./frontend:/app:cached
     env_file:
       - ./frontend/.env
     environment:
