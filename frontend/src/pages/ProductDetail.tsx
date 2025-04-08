@@ -5,6 +5,7 @@ import { PRODUCTS_URL } from '@/constants/api';
 import { ProductDetail as ProductDetailType } from '@/models';
 import { formatCurrency } from '@/utils/formatterHelper';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import ProductDetailSkeleton from '@/components/product/ProductDetailSkeleton';
 import { Button } from '@/components/ui/button';
 
 const ProductDetail = () => {
@@ -55,7 +56,7 @@ const ProductDetail = () => {
     <>
       <Breadcrumb items={categories} className="mb-4" />
       <div className="flex flex-col gap-4 p-8 bg-white rounded-sm">
-        {product && (
+        {product ? (
           <>
             <div className="grid grid-cols-10 gap-4 pr-8">
               <div className="flex justify-center col-span-7 max-w-[680px]">
@@ -94,6 +95,8 @@ const ProductDetail = () => {
               </p>
             </div>
           </>
+        ) : (
+          <ProductDetailSkeleton />
         )}
       </div>
     </>
