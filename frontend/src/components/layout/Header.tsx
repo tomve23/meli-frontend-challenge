@@ -13,9 +13,7 @@ const Header = () => {
   useEffect(() => {
     const search = searchParams.get('search')?.trim();
 
-    if (search) {
-      setSearchValue(search);
-    }
+    setSearchValue(search || '');
   }, [searchParams]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

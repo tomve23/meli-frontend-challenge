@@ -1,6 +1,6 @@
-import { Product } from "@/models";
+import { Product } from '@/models';
 
 export interface ProductDetail extends Product {
-  sold_quantity: number;
-  description: string;
+  sold_quantity?: number;
+  description?: string;
 }

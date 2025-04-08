@@ -1,1 +1,1 @@
-export const SEARCH_PRODUCTS = '/api/items?q=';
+export const PRODUCTS_URL = '/items';
