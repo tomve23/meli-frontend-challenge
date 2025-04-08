@@ -2,28 +2,39 @@ import api from "@/services/api";
 import { API_MELI_FRONTEND } from "@/constants/api";
 import { Request, Response } from "express";
 import { Author, Product } from "@/models";
-import { SearchResponse } from "./productController.types";
+import { SearchResponse } from "@/controllers/product";
 
 const author: Author = {
   name: "Tomás",
   lastname: "Vera",
 };
 
-export const searchProducts = async (req: Request, res: Response) => {
+const limit = 4;
+
+export const searchProducts = async ({ query }: Request, res: Response) => {
   try {
     const { data } = await api.get(`${API_MELI_FRONTEND}/sites/MLA/search`, {
-      params: req.query,
+      params: {
+        q: query.q,
+        offset: limit * Number(query.page || 0),
+      },
     });
 
-    const categories: string[] = data.breadcrumbs;
+    const results = data.results.slice(0, limit);
 
-    const items: Product[] = data.results.map((item: any) => ({
+    const categories: string[] = data.breadcrumb.map((item: any) => item.text);
+    const items: Product[] = results.map((item: any) => ({
       id: item.id,
       title: item.title,
       price: {
         currency: item.price.currency_id,
         amount: item.price.amount,
         decimals: data.currency.decimal_places,
+      },
+      address: {
+        state: item.seller_info.address.state?.name,
+        city: item.seller_info.address.city?.name,
+        country: item.seller_info.address.country?.name,
       },
       picture: item.pictures.stack.retina,
       condition: item.condition_text,
