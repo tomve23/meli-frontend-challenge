@@ -1,8 +1,10 @@
 import api from '@/services/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { PRODUCTS_URL } from '@/constants/api';
+import { PAGE_TITLE } from '@/constants/setup';
 import { Product } from '@/models';
+import { capitalize } from '@/utils/formatterHelper';
 import ProductCard from '@/components/product/ProductCard';
 import ProductCardSkeleton from '@/components/product/ProductCardSkeleton';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -42,6 +44,21 @@ const SearchResults = () => {
     }
   }, [searchParams]);
 
+  const pageTitle = useMemo(() => {
+    const search = searchParams.get('search')?.trim();
+
+    if (search) {
+      const title = search
+        .split(' ')
+        .map((word) => capitalize(word))
+        .join(' ');
+
+      return `${title} | ${PAGE_TITLE}`;
+    }
+
+    return 'Resultados de búsqueda';
+  }, [searchParams]);
+
   const handleRedirect =
     (item: Product) => (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
@@ -56,6 +73,12 @@ const SearchResults = () => {
 
   return (
     <>
+      <title>{pageTitle}</title>
+      <meta property="og:title" content={pageTitle} />
+      <meta
+        property="og:description"
+        content={`Resultados de búsqueda para "${searchParams.get('search')}"`}
+      />
       <Breadcrumb items={categories} className="mb-4" />
       <div className="rounded overflow-hidden px-4 bg-white">
         {!loading &&

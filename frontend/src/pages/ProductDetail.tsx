@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import api from '@/services/api';
 import { PRODUCTS_URL } from '@/constants/api';
+import { PAGE_TITLE } from '@/constants/setup';
 import { ProductDetail as ProductDetailType } from '@/models';
 import { formatCurrency } from '@/utils/formatterHelper';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -39,6 +40,10 @@ const ProductDetail = () => {
     };
   }, [product]);
 
+  const pageTitle = useMemo(() => {
+    return `${product?.title || 'Detalle de producto'} | ${PAGE_TITLE}`;
+  }, [product]);
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
@@ -55,6 +60,10 @@ const ProductDetail = () => {
 
   return (
     <>
+      <title>{pageTitle}</title>
+      <meta property="og:title" content={product?.title} />
+      <meta property="og:description" content={product?.title} />
+      <meta property="og:image" content={product?.picture} />
       <Breadcrumb items={categories} className="mb-4" />
       <div className="flex flex-col gap-16 p-8 bg-white rounded-sm">
         {product ? (
