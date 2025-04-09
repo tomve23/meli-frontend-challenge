@@ -6,6 +6,7 @@ import { Product } from '@/models';
 import ProductCard from '@/components/product/ProductCard';
 import ProductCardSkeleton from '@/components/product/ProductCardSkeleton';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import NotFound from '@/assets/images/NotFound.svg?react';
 
 const SearchResults = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const SearchResults = () => {
       setCategories(data.categories);
     } catch (error) {
       console.error('Error fetching products:', error);
+      navigate('/500');
     } finally {
       setLoading(false);
     }
@@ -58,16 +60,19 @@ const SearchResults = () => {
       <div className="rounded overflow-hidden px-4 bg-white">
         {!loading &&
           products.map((product: Product) => (
-            <div className="[&:not(:last-child)]:border-b border-background">
+            <div
+              key={product.id}
+              className="[&:not(:last-child)]:border-b border-background"
+            >
               <Link
                 to={`/items/${product.id}`}
-                key={product.id}
                 onClick={handleRedirect(product)}
               >
                 <ProductCard key={product.id} product={product} />
               </Link>
             </div>
           ))}
+
         {loading &&
           Array.from({ length: 4 }).map((_, index) => (
             <ProductCardSkeleton
@@ -75,6 +80,34 @@ const SearchResults = () => {
               className="[&:not(:last-child)]:border-b border-background"
             />
           ))}
+
+        {!loading && products.length === 0 && (
+          <div className="flex items-center justify-center p-8 gap-10 text-text">
+            <NotFound />
+            <div className="flex flex-col gap-3">
+              <h2 className="text-2xl font-semibold">
+                No hay publicaciones que coincidan con tu búsqueda
+              </h2>
+              <ul className="list-disc list-inside">
+                <li>
+                  <span className="font-semibold">Revisá la ortografía</span> de
+                  la palabra
+                </li>
+                <li>
+                  Utilizá{' '}
+                  <span className="font-semibold">palabras más genéricas</span>{' '}
+                  o menos específicas
+                </li>
+                <li>
+                  <span className="font-semibold">
+                    Intentá con otra búsqueda
+                  </span>{' '}
+                  para encontrar un producto similar
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

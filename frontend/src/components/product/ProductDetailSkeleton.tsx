@@ -3,10 +3,10 @@ import { cn } from '@/lib/utils';
 
 const ProductDetailSkeleton = ({ className }: { className?: string }) => {
   return (
-    <div className={cn('flex flex-col gap-4 bg-white rounded-sm', className)}>
+    <div className={cn('flex flex-col gap-16 bg-white rounded-sm', className)}>
       <div className="grid grid-cols-10 gap-4 pr-8">
         <div className="col-span-7 flex flex-col gap-4">
-          <Skeleton className="w-full aspect-square" />
+          <Skeleton className="max-w-[680px] aspect-square" />
         </div>
         <div className="col-span-3 flex flex-col">
           <Skeleton className="h-6 w-28 mb-4" />

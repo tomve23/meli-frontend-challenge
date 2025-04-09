@@ -46,6 +46,7 @@ const ProductDetail = () => {
         setProduct({ ...productData, ...data });
       } catch (error) {
         console.error('Error fetching product details:', error);
+        navigate('/500');
       }
     };
 
@@ -55,7 +56,7 @@ const ProductDetail = () => {
   return (
     <>
       <Breadcrumb items={categories} className="mb-4" />
-      <div className="flex flex-col gap-4 p-8 bg-white rounded-sm">
+      <div className="flex flex-col gap-16 p-8 bg-white rounded-sm">
         {product ? (
           <>
             <div className="grid grid-cols-10 gap-4 pr-8">

@@ -72,6 +72,5 @@ export const getProductDetails = async ({ params }: Request, res: Response) => {
   } catch (error) {
     console.error("Error fetching product details:", error);
     res.status(500).json({ error: "Ocurrió un error al obtener los datos" });
-    throw error;
   }
 };
